@@ -1,5 +1,5 @@
 import { Request, Response } from "express"
-import { RevendaService } from "./RevendaService"
+import { RevendaService } from "./revendaService"
 
 export class ListarRevendaController {
     async listarRevenda(request: Request, response: Response){
