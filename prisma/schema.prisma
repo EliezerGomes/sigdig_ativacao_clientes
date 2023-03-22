@@ -1,0 +1,49 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model empresa {
+  codigo           Int       @id @default(autoincrement())
+  cnpj             String    @db.VarChar(20)
+  razao            String    @db.VarChar(50)
+  endereco         String    @db.VarChar(50)
+  cidade           String    @db.VarChar(35)
+  bairro           String    @db.VarChar(35)
+  cep              String    @db.VarChar(8)
+  uf               String    @db.VarChar(2)
+  fone             String?   @db.VarChar(20)
+  email            String?   @db.VarChar(120)
+  data             DateTime  @default(now()) @db.DateTime(0)
+  nterminais       Int?
+  serial           String?   @db.VarChar(200)
+  validade_licenca DateTime? @db.Date
+  bloqueado        String?   @db.VarChar(1)
+  id_revenda       Int
+  isento           Int?
+  revenda          revenda   @relation(fields: [id_revenda], references: [ID], onUpdate: Restrict, map: "empresa_ibfk_1")
+}
+
+model revenda {
+  ID             Int       @id @default(autoincrement())
+  NOME           String    @db.VarChar(150)
+  CNPJ           String    @db.VarChar(20)
+  ATIVO          Boolean
+  SENHA          String    @db.VarChar(30)
+  MENSALIDADE    Float?
+  PRECO_SUGERIDO Float?
+  empresa        empresa[]
+}
+
+model terminais {
+  CODIGO             Int    @id @default(autoincrement())
+  FK_EMPRESA         Int
+  MAC                String @db.VarChar(200)
+  NOME_COMPUTADOR    String @db.VarChar(200)
+  VIRTUAL_MAC        String @db.VarChar(200)
+  VIRTUAL_COMPUTADOR String @db.VarChar(200)
+}
